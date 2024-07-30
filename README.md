@@ -1,5 +1,3 @@
-# RDH
-
 # RDH/
 # │
 # ├── static/
