@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const search = document.getElementById('search');
     const activityList = document.getElementById('activity-list');
     const inventoryList = document.getElementById('inventory-list');
+    const loginForm = document.getElementById('loginForm');
+    const loginMessage = document.getElementById('loginMessage');
 
     // Handle add part button click
     if (addPartButton) {
@@ -71,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Populate dashboard metrics and recent activities (mock data)
+    // Populate dashboard metrics and recent activities
     if (activityList) {
         fetch(`${backendUrl}/dashboard`)
             .then(response => response.json())
@@ -106,6 +108,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p>Quantity: ${item.quantity}</p>
             `;
             inventoryList.appendChild(div);
+        });
+    }
+
+    // Handle login form submission
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent the form from submitting the default way
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch(`${backendUrl}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    loginMessage.textContent = 'Login successful!';
+                    loginMessage.style.color = 'green';
+                    // Optionally redirect or perform other actions here
+                    // window.location.href = 'somepage.html';
+                } else {
+                    loginMessage.textContent = result.message || 'Login failed!';
+                    loginMessage.style.color = 'red';
+                }
+            } catch (error) {
+                loginMessage.textContent = 'An error occurred. Please try again.';
+                loginMessage.style.color = 'red';
+            }
         });
     }
 
