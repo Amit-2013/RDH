@@ -1,18 +1,69 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
+    margin: 0;
+    padding: 0;
 }
 
-section {
-    margin-bottom: 30px;
+.container {
+    padding: 20px;
 }
 
-input, button {
-    margin: 5px 0;
+form {
+    margin-bottom: 20px;
+}
+
+input, select {
+    display: block;
+    width: 100%;
     padding: 10px;
-    font-size: 16px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
 }
 
 button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.alert {
+    padding: 15px;
+    background-color: #f44336;
+    color: white;
+    margin-bottom: 20px;
+    display: none;
+}
+
+.alert.success {
+    background-color: #4CAF50;
+}
+
+.alert.info {
+    background-color: #2196F3;
+}
+
+.alert.warning {
+    background-color: #ff9800;
+}
+
+.preview-container img {
+    max-width: 100px;
+    margin-right: 10px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
     cursor: pointer;
 }
