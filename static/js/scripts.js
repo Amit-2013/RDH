@@ -7,6 +7,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const partsInventoryForm = document.getElementById('partsInventoryForm');
     const barcodeButton = document.getElementById('generateBarcode');
     const tokenSlipButton = document.getElementById('generateTokenSlip');
+    const previewContainer = document.getElementById('previewContainer');
+    
+    // Validate form fields
+    function validateForm(form) {
+        const inputs = form.querySelectorAll('input[required]');
+        for (const input of inputs) {
+            if (input.value.trim() === '') {
+                alert('Please fill out all required fields.');
+                return false;
+            }
+        }
+        return true;
+    }
 
     // Handle customer search
     searchForm.addEventListener('submit', async (e) => {
@@ -38,7 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
     customerForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!validateForm(customerForm)) {
-            alert('Please fill out all required fields.');
             return;
         }
         const formData = new FormData(customerForm);
@@ -58,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
     inspectionForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!validateForm(inspectionForm)) {
-            alert('Please fill out all required fields.');
             return;
         }
         const formData = new FormData(inspectionForm);
@@ -69,6 +80,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             const data = await response.json();
             document.getElementById('inspectionResponse').textContent = data.message;
+            if (data.token_number) {
+                document.getElementById('token_number').value = data.token_number;
+            }
         } catch (error) {
             console.error('Error:', error);
         }
@@ -77,6 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle parts request form submission
     partsRequestForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        if (!validateForm(partsRequestForm)) {
+            return;
+        }
         const formData = new FormData(partsRequestForm);
         try {
             const response = await fetch('http://127.0.0.1:5000/parts_request', {
@@ -93,6 +110,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle part requirement form submission
     partRequirementForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        if (!validateForm(partRequirementForm)) {
+            return;
+        }
         const formData = new FormData(partRequirementForm);
         try {
             const response = await fetch('http://127.0.0.1:5000/part_requirement', {
@@ -109,8 +129,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle parts inventory form submission
     partsInventoryForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        // Handle file import or other actions
-        alert('Parts Inventory update functionality needs implementation.');
+        const formData = new FormData(partsInventoryForm);
+        try {
+            const response = await fetch('http://127.0.0.1:5000/parts_inventory', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            alert(data.message);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     });
 
     // Handle barcode generation
@@ -151,25 +180,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const preview = document.createElement('img');
                 preview.src = e.target.result;
                 preview.width = 100;
-                document.getElementById('previewContainer').appendChild(preview);
+                previewContainer.appendChild(preview);
             };
             reader.readAsDataURL(input.files[0]);
         }
     }
 
-    // Function to open mileage popup
-    function openPopup() {
-        document.getElementById('mileagePopup').style.display = 'block';
-    }
-
-    // Function to close mileage popup
-    function closePopup() {
-        document.getElementById('mileagePopup').style.display = 'none';
-    }
-
-    // Function to validate forms
-    function validateForm(form) {
-        const inputs = form.querySelectorAll('input[required]');
-        return Array.from(inputs).every(input => input.value.trim() !== '');
-    }
+    document.querySelectorAll('input[type="file"]').forEach(input => {
+        input.addEventListener('change', () => previewImage(input));
+    });
 });
