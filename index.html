@@ -3,116 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vehicle Service Management</title>
+    <title>Vehicle Service</title>
     <link rel="stylesheet" href="static/css/styles.css">
 </head>
 <body>
-    <h1>Vehicle Service Management</h1>
+    <h1>Vehicle Service</h1>
     
-    <!-- Customer Search Form -->
-    <h2>Customer Search</h2>
-    <form id="searchForm">
-        <label for="search_registration_number">Registration Number:</label>
-        <input type="text" id="search_registration_number" name="search_registration_number" required>
-        <button type="submit">Search</button>
-    </form>
-    <p id="searchResponse"></p>
+    <section>
+        <h2>Register or Retrieve Customer</h2>
+        <form id="customer-form">
+            <input type="text" id="registration-number" placeholder="Registration Number" required>
+            <input type="text" id="customer-name" placeholder="Customer Name" required>
+            <input type="text" id="mobile-number" placeholder="Mobile Number" required>
+            <input type="text" id="vin-number" placeholder="VIN Number" required>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="customer-response"></div>
+    </section>
     
-    <!-- Customer Add/Update Form -->
-    <h2>Customer Add/Update</h2>
-    <form id="customerForm">
-        <input type="hidden" id="customer_id" name="customer_id">
-        <label for="registration_number">Registration Number:</label>
-        <input type="text" id="registration_number" name="registration_number" required>
-        <button type="button" onclick="addToTextBox('registration_number')">Add</button><br><br>
-        <label for="customer_name">Customer Name:</label>
-        <input type="text" id="customer_name" name="customer_name" required>
-        <button type="button" onclick="addToTextBox('customer_name')">Add</button><br><br>
-        <label for="mobile_number">Mobile Number:</label>
-        <input type="text" id="mobile_number" name="mobile_number" required>
-        <button type="button" onclick="addToTextBox('mobile_number')">Add</button><br><br>
-        <label for="vin_number">VIN Number:</label>
-        <input type="text" id="vin_number" name="vin_number" required>
-        <button type="button" onclick="addToTextBox('vin_number')">Add</button><br><br>
-        <button type="submit">Submit Customer</button>
-    </form>
-    <p id="customerResponse"></p>
-
-    <!-- Mileage Popup -->
-    <div id="mileagePopup" class="popup">
-        <h3>Enter Mileage Information</h3>
-        <div class="popup-content">
-            <label for="past_mileage">Past Mileage:</label>
-            <input type="text" id="past_mileage">
-            <button type="button" onclick="addMileage('past_mileage')">Add</button><br><br>
-            <label for="current_mileage">Current Mileage:</label>
-            <input type="text" id="current_mileage">
-            <button type="button" onclick="addMileage('current_mileage')">Add</button><br><br>
-        </div>
-        <button onclick="closePopup()">Close</button>
-    </div>
-
-    <!-- Vehicle Inspection Form -->
-    <h2>Vehicle Inspection</h2>
-    <form id="inspectionForm">
-        <input type="hidden" id="customer_id_inspection" name="customer_id">
-        <label for="current_mileage_input">Current Mileage:</label>
-        <input type="text" id="current_mileage_input" name="current_mileage" required>
-        <button type="button" onclick="openPopup()">Get Mileage</button><br><br>
-        <label for="right_view">Right View:</label>
-        <input type="file" id="right_view" name="right_view" accept="image/*" onchange="previewImage(this)"><br><br>
-        <label for="left_view">Left View:</label>
-        <input type="file" id="left_view" name="left_view" accept="image/*" onchange="previewImage(this)"><br><br>
-        <label for="front_view">Front View:</label>
-        <input type="file" id="front_view" name="front_view" accept="image/*" onchange="previewImage(this)"><br><br>
-        <label for="back_view">Back View:</label>
-        <input type="file" id="back_view" name="back_view" accept="image/*" onchange="previewImage(this)"><br><br>
-        <label for="inside_view">Inside View:</label>
-        <input type="file" id="inside_view" name="inside_view" accept="image/*" onchange="previewImage(this)"><br><br>
-        <label for="trunk_view">Trunk View:</label>
-        <input type="file" id="trunk_view" name="trunk_view" accept="image/*" onchange="previewImage(this)"><br><br>
-        <label for="hood_view">Hood View:</label>
-        <input type="file" id="hood_view" name="hood_view" accept="image/*" onchange="previewImage(this)"><br><br>
-        <label for="video">360 Degree Video:</label>
-        <input type="file" id="video" name="video" accept="video/*"><br><br>
-        <button type="submit">Submit Inspection</button>
-    </form>
-    <div id="previewContainer"></div>
-    <p id="inspectionResponse"></p>
-
-    <!-- Part Request and Requirement Forms -->
-    <h2>Parts Request</h2>
-    <form id="partsRequestForm">
-        <label for="requested_parts">Requested Parts:</label>
-        <select id="requested_parts" name="requested_parts" multiple>
-            <!-- Options should be populated dynamically -->
-        </select>
-        <button type="button" onclick="addToRequiredParts()">Add to Required Parts</button>
-        <div id="requiredPartsContainer"></div>
-        <button type="submit">Send Request</button>
-    </form>
-
-    <h2>Part Requirement</h2>
-    <form id="partRequirementForm">
-        <!-- Multiple entry form here -->
-    </form>
-
-    <!-- Parts Inventory Form -->
-    <h2>Parts Inventory</h2>
-    <form id="partsInventoryForm">
-        <button type="button" onclick="importParts()">Import Parts</button>
-        <div id="partsInventoryTable"></div>
-    </form>
-
-    <!-- Barcode and Token Slip -->
-    <h2>Generate Barcode and Token Slip</h2>
-    <input type="text" id="barcode_token" placeholder="Token Number" required>
-    <button type="button" onclick="generateBarcode()">Generate Barcode</button>
-    <input type="text" id="token_number" placeholder="Token Number" required>
-    <button type="button" onclick="generateTokenSlip()">Generate Token Slip</button>
-    <img id="barcode_image" src="" alt="Barcode Image" style="display:none;">
-    <a id="token_slip_link" href="#" target="_blank">Download Token Slip</a>
-
+    <section>
+        <h2>Upload Files</h2>
+        <form id="upload-form" enctype="multipart/form-data">
+            <input type="file" id="file" name="file" required>
+            <button type="submit">Upload</button>
+        </form>
+        <div id="upload-response"></div>
+    </section>
+    
+    <section>
+        <h2>Generate Barcode</h2>
+        <input type="text" id="barcode-token" placeholder="Token" required>
+        <button id="generate-barcode">Generate Barcode</button>
+        <img id="barcode-image" src="" alt="Barcode Image" style="display:none;">
+    </section>
+    
+    <section>
+        <h2>Generate Token Slip</h2>
+        <input type="text" id="token" placeholder="Token Number" required>
+        <button id="generate-token-slip">Generate Token Slip</button>
+        <a id="token-slip-link" href="#" target="_blank">Download Token Slip</a>
+    </section>
+    
     <script src="static/js/scripts.js"></script>
 </body>
 </html>
