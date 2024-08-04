@@ -3,34 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Auto Parts Inventory</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Vehicle Service</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="index-container">
-        <h1>Royal Dream Hyundai, Noida</h1>
-        <h2>Spare Parts Inventory Management</h2>
-        <!-- Login Form -->
-        <div class="login-container">
-            <h2>Login</h2>
-            <form id="loginForm">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
-                
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-                
-                <button type="submit">Login</button>
-            </form>
-            <p id="loginMessage"></p>
-        </div>
-    <nav>
-            <ul>
-                <li><a href="https://amit-2013.github.io/RDH/dashboard.html">Dashboard</a></li>
-                <li><a href="https://amit-2013.github.io/RDH/inventory.html">Inventory Management</a></li>
-            </ul>
-        </nav>
-    </div>
-    <script src="app.js"></script>
+    <h1>Vehicle Service Form</h1>
+    <form id="customerForm">
+        <label for="registrationNumber">Registration Number:</label>
+        <input type="text" id="registrationNumber" name="registrationNumber" required>
+        <label for="customerName">Customer Name:</label>
+        <input type="text" id="customerName" name="customerName" required>
+        <label for="mobileNumber">Mobile Number:</label>
+        <input type="text" id="mobileNumber" name="mobileNumber" required>
+        <label for="vinNumber">VIN Number:</label>
+        <input type="text" id="vinNumber" name="vinNumber" required>
+        <button type="submit">Submit</button>
+    </form>
+    <script src="script.js"></script>
 </body>
 </html>
