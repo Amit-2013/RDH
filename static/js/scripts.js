@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const generateBarcodeButton = document.getElementById('generate-barcode');
     const generateTokenSlipButton = document.getElementById('generate-token-slip');
     
+    // Base URL for API requests
+    const baseUrl = 'http://127.0.0.1:5000';
+
     // Handle customer form submission
     customerForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -13,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const vinNumber = document.getElementById('vin-number').value;
         
         try {
-            const response = await fetch('/api/customers', {
+            const response = await fetch(`${baseUrl}/api/customers`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ registrationNumber, customerName, mobileNumber, vinNumber })
@@ -31,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const formData = new FormData(uploadForm);
         
         try {
-            const response = await fetch('/api/upload/file', {
+            const response = await fetch(`${baseUrl}/api/upload/file`, {
                 method: 'POST',
                 body: formData
             });
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const token = document.getElementById('barcode-token').value;
         
         try {
-            const response = await fetch(`/api/barcode/${token}`);
+            const response = await fetch(`${baseUrl}/api/barcode/${token}`);
             const blob = await response.blob();
             const url = URL.createObjectURL(blob);
             const barcodeImage = document.getElementById('barcode-image');
@@ -63,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const token = document.getElementById('token').value;
         
         try {
-            const response = await fetch('/api/token', {
+            const response = await fetch(`${baseUrl}/api/token`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token })
