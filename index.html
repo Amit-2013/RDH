@@ -3,79 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vehicle Service Management</title>
+    <title>Royal Dream Hyundai Workshop</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>Royal Dream Hyundai Workshop</h1>
+    <nav>
+        <ul>
+            <li><a href="#" onclick="showTab('customer-vehicles')">Customer Vehicles Data Storage</a></li>
+            <li><a href="#" onclick="showTab('vehicle-management')">Vehicle Management</a></li>
+            <li><a href="#" onclick="showTab('data-entry')">Data Entry Form</a></li>
+            <li><a href="#" onclick="showTab('vehicle-inspection')">Vehicle Inspection</a></li>
+            <li><a href="#" onclick="showTab('parts-inventory')">Parts Inventory</a></li>
+            <li><a href="#" onclick="showTab('parts-issued-request')">Parts Issued Request</a></li>
+            <li><a href="#" onclick="showTab('parts-history')">Parts History</a></li>
+            <li><a href="#" onclick="showTab('parts-check')">Parts Check</a></li>
+            <li><a href="#" onclick="showTab('parts-issued-history')">Parts Issued History</a></li>
+            <li><a href="#" onclick="showTab('billing-payment')">Billing & Payment</a></li>
+        </ul>
+    </nav>
 
-    <h2>Customer Search</h2>
-    <form id="searchForm">
-        <label for="search_registration_number">Registration Number:</label>
-        <input type="text" id="search_registration_number" name="registration_number" required>
-        <button type="submit">Search</button>
-        <p id="searchResponse"></p>
-    </form>
+    <div id="customer-vehicles" class="tab-content">
+        <h2>Customer Vehicles Data Storage</h2>
+        <form id="customer-form">
+            <label for="customer_name">Customer Name:</label>
+            <input type="text" id="customer_name" name="customer_name" required><br>
+            <label for="mobile_number">Mobile Number:</label>
+            <input type="text" id="mobile_number" name="mobile_number" required><br>
+            <label for="vin_number">VIN Number:</label>
+            <input type="text" id="vin_number" name="vin_number" required><br>
+            <label for="registration_number">Registration Number:</label>
+            <input type="text" id="registration_number" name="registration_number" required><br>
+            <label for="mileage">Mileage:</label>
+            <input type="number" id="mileage" name="mileage" required><br>
+            <button type="button" onclick="addCustomer()">Add Customer</button>
+        </form>
+    </div>
 
-    <h2>Customer Registration</h2>
-    <form id="customerForm">
-        <input type="hidden" id="customer_id" name="customer_id">
-        <label for="registration_number">Registration Number:</label>
-        <input type="text" id="registration_number" name="registration_number" required>
-        <label for="customer_name">Customer Name:</label>
-        <input type="text" id="customer_name" name="customer_name" required>
-        <label for="mobile_number">Mobile Number:</label>
-        <input type="text" id="mobile_number" name="mobile_number" required>
-        <label for="vin_number">VIN Number:</label>
-        <input type="text" id="vin_number" name="vin_number" required>
-        <button type="submit">Register</button>
-        <p id="customerResponse"></p>
-    </form>
+    <div id="vehicle-management" class="tab-content">
+        <h2>Vehicle Management</h2>
+        <form id="search-form">
+            <label for="search_identifier">Search by VIN or Registration Number:</label>
+            <input type="text" id="search_identifier" name="search_identifier" required><br>
+            <button type="button" onclick="searchCustomer()">Search</button>
+        </form>
+        <div id="search-results"></div>
+    </div>
 
-    <h2>Vehicle Inspection</h2>
-    <form id="inspectionForm">
-        <label for="current_mileage">Current Mileage:</label>
-        <input type="text" id="current_mileage" name="current_mileage" required>
-        <label for="inspection_files">Upload Files:</label>
-        <input type="file" id="inspection_files" name="inspection_files" multiple required>
-        <button type="submit">Submit Inspection</button>
-        <p id="inspectionResponse"></p>
-        <div id="previewContainer"></div>
-    </form>
+    <div id="data-entry" class="tab-content">
+        <h2>Data Entry Form</h2>
+        <form id="data-entry-form">
+            <label for="entry_customer_name">Customer Name:</label>
+            <input type="text" id="entry_customer_name" name="entry_customer_name" required><br>
+            <label for="entry_mobile_number">Mobile Number:</label>
+            <input type="text" id="entry_mobile_number" name="entry_mobile_number" required><br>
+            <label for="entry_vin_number">VIN Number:</label>
+            <input type="text" id="entry_vin_number" name="entry_vin_number" required><br>
+            <label for="entry_registration_number">Registration Number:</label>
+            <input type="text" id="entry_registration_number" name="entry_registration_number" required><br>
+            <label for="entry_current_mileage">Current Mileage:</label>
+            <input type="number" id="entry_current_mileage" name="entry_current_mileage" required><br>
+            <button type="button" onclick="submitDataEntry()">Submit</button>
+        </form>
+        <div id="token-info"></div>
+    </div>
 
-    <h2>Parts Request</h2>
-    <form id="partsRequestForm">
-        <label for="parts_request">Parts Request:</label>
-        <input type="text" id="parts_request" name="parts_request" required>
-        <button type="submit">Request Parts</button>
-    </form>
+    <div id="vehicle-inspection" class="tab-content">
+        <h2>Vehicle Inspection</h2>
+        <form id="inspection-form" enctype="multipart/form-data">
+            <label for="inspection_customer_id">Customer ID:</label>
+            <input type="number" id="inspection_customer_id" name="inspection_customer_id" required><br>
+            <label for="inspection_current_mileage">Current Mileage:</label>
+            <input type="number" id="inspection_current_mileage" name="inspection_current_mileage" required><br>
+            <label for="right_side_photo">Right Side Photo:</label>
+            <input type="file" id="right_side_photo" name="right_side_photo" required><br>
+            <label for="left_side_photo">Left Side Photo:</label>
+            <input type="file" id="left_side_photo" name="left_side_photo" required><br>
+            <label for="front_side_photo">Front Side Photo:</label>
+            <input type="file" id="front_side_photo" name="front_side_photo" required><br>
+            <label for="back_side_photo">Back Side Photo:</label>
+            <input type="file" id="back_side_photo" name="back_side_photo" required><br>
+            <label for="inside_photo">Inside Photo:</label>
+            <input type="file" id="inside_photo" name="inside_photo" required><br>
+            <label for="hood_photo">Hood Photo:</label>
+            <input type="file" id="hood_photo" name="hood_photo" required><br>
+            <label for="video">360 Degree Video:</label>
+            <input type="file" id="video" name="video" required><br>
+            <button type="button" onclick="submitInspection()">Submit</button>
+        </form>
+    </div>
 
-    <h2>Part Requirement</h2>
-    <form id="partRequirementForm">
-        <label for="part_requirement">Part Requirement:</label>
-        <input type="text" id="part_requirement" name="part_requirement" required>
-        <button type="submit">Submit Requirement</button>
-    </form>
+    <div id="parts-inventory" class="tab-content">
+        <h2>Parts Inventory</h2>
+        <form id="parts-form">
+            <label for="part_no">Part No:</label>
+            <input type="text" id="part_no" name="part_no" required><br>
+            <label for="part_name">Part Name:</label>
+            <input type="text" id="part_name" name="part_name" required><br>
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" required><br>
+            <button type="button" onclick="addPart()">Add Part</button>
+        </form>
+    </div>
 
-    <h2>Parts Inventory</h2>
-    <form id="partsInventoryForm">
-        <label for="parts_inventory_file">Import Parts Inventory:</label>
-        <input type="file" id="parts_inventory_file" name="parts_inventory_file" accept=".xlsx, .xls, .csv" required>
-        <button type="submit">Import Inventory</button>
-    </form>
+    <div id="parts-issued-request" class="tab-content">
+        <h2>Parts Issued Request</h2>
+        <form id="parts-request-form">
+            <label for="request_customer_id">Customer ID:</label>
+            <input type="number" id="request_customer_id" name="request_customer_id" required><br>
+            <label for="request_part_name">Part Name:</label>
+            <input type="text" id="request_part_name" name="request_part_name" required><br>
+            <label for="request_part_no">Part No:</label>
+            <input type="text" id="request_part_no" name="request_part_no" required><br>
+            <label for="request_quantity">Quantity:</label>
+            <input type="number" id="request_quantity" name="request_quantity" required><br>
+            <button type="button" onclick="submitPartsRequest()">Submit</button>
+        </form>
+    </div>
 
-    <h2>Barcode Generation</h2>
-    <label for="barcode_token">Token Number:</label>
-    <input type="text" id="barcode_token" name="barcode_token" required>
-    <button id="generateBarcode">Generate Barcode</button>
-    <img id="barcode_image" style="display: none;">
+    <div id="parts-history" class="tab-content">
+        <h2>Parts History</h2>
+        <form id="parts-history-form">
+            <label for="history_identifier">Search by VIN or Registration Number:</label>
+            <input type="text" id="history_identifier" name="history_identifier" required><br>
+            <button type="button" onclick="searchPartsHistory()">Search</button>
+        </form>
+        <div id="parts-history-results"></div>
+    </div>
 
-    <h2>Token Slip Generation</h2>
-    <label for="token_number">Token Number:</label>
-    <input type="text" id="token_number" name="token_number" required>
-    <button id="generateTokenSlip">Generate Token Slip</button>
-    <a id="token_slip_link" style="display: none;" target="_blank">Download Token Slip</a>
+    <div id="parts-check" class="tab-content">
+        <h2>Parts Check</h2>
+        <div id="required-parts">
+            <!-- Display required parts here -->
+        </div>
+    </div>
 
-    <script src="scripts.js"></script>
+    <div id="parts-issued-history" class="tab-content">
+        <h2>Parts Issued History</h2>
+        <form id="issued-history-form">
+            <label for="issued_identifier">Search by VIN or Registration Number:</label>
+            <input type="text" id="issued_identifier" name="issued_identifier" required><br>
+            <label for="issued_date">Search by Date:</label>
+            <input type="date" id="issued_date" name="issued_date"><br>
+            <button type="button" onclick="searchIssuedHistory()">Search</button>
+        </form>
+        <div id="issued-history-results"></div>
+    </div>
+
+    <div id="billing-payment" class="tab-content">
+        <h2>Billing & Payment</h2>
+        <form id="billing-form">
+            <label for="billing_customer_id">Customer ID:</label>
+            <input type="number" id="billing_customer_id" name="billing_customer_id" required><br>
+            <label for="receipt_no">Receipt No:</label>
+            <input type="text" id="receipt_no" name="receipt_no" required><br>
+            <label for="payment_date">Date of Payment:</label>
+            <input type="date" id="payment_date" name="payment_date" required><br>
+            <label for="payment_mode">Mode of Payment:</label>
+            <select id="payment_mode" name="payment_mode" required>
+                <option value="cash">Cash</option>
+                <option value="online">Online</option>
+                <option value="cheque">Cheque</option>
+            </select><br>
+            <label for="payment_details">Payment Details:</label>
+            <input type="text" id="payment_details" name="payment_details"><br>
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" required><br>
+            <label for="amount_in_words">Amount in Words:</label>
+            <input type="text" id="amount_in_words" name="amount_in_words" required><br>
+            <button type="button" onclick="submitBilling()">Submit</button>
+        </form>
+    </div>
 </body>
+
 </html>
+
