@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Management Application</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Service Management Application</h1>
+
+    <!-- Customer Vehicles Data Storage Form -->
+    <h2>Add Vehicle</h2>
+    <form action="/add_vehicle" method="post">
+        <label for="customer_name">Customer Name:</label>
+        <input type="text" id="customer_name" name="customer_name" required>
+        <label for="mobile_number">Mobile Number:</label>
+        <input type="text" id="mobile_number" name="mobile_number" required>
+        <label for="vin_number">VIN Number:</label>
+        <input type="text" id="vin_number" name="vin_number" required>
+        <label for="registration_number">Registration Number:</label>
+        <input type="text" id="registration_number" name="registration_number" required>
+        <label for="mileage">Mileage:</label>
+        <input type="number" id="mileage" name="mileage" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Search Vehicle -->
+    <h2>Search Vehicle</h2>
+    <form action="/search_vehicle" method="get">
+        <label for="vin">VIN Number:</label>
+        <input type="text" id="vin" name="vin">
+        <label for="registration_number">Registration Number:</label>
+        <input type="text" id="registration_number" name="registration_number">
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Parts Inventory Form -->
+    <h2>Add Part</h2>
+    <form action="/add_part" method="post">
+        <label for="part_no">Part No:</label>
+        <input type="text" id="part_no" name="part_no" required>
+        <label for="part_name">Part Name:</label>
+        <input type="text" id="part_name" name="part_name" required>
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Parts Issued Request Form -->
+    <h2>Request Part</h2>
+    <form action="/request_part" method="post">
+        <label for="registration_number">Registration Number:</label>
+        <input type="text" id="registration_number" name="registration_number" required>
+        <label for="part_name">Part Name:</label>
+        <input type="text" id="part_name" name="part_name" required>
+        <label for="part_no">Part No:</label>
+        <input type="text" id="part_no" name="part_no" required>
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" required>
+        <label for="sa_tick">SA Tick:</label>
+        <input type="checkbox" id="sa_tick" name="sa_tick" value="1">
+        <label for="pm_box">PM Box:</label>
+        <input type="checkbox" id="pm_box" name="pm_box" value="1">
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Approve Part Request -->
+    <h2>Approve Part Request</h2>
+    <form action="/approve_part_request" method="post">
+        <label for="id">Request ID:</label>
+        <input type="number" id="id" name="id" required>
+        <label for="registration_number">Registration Number:</label>
+        <input type="text" id="registration_number" name="registration_number" required>
+        <label for="part_name">Part Name:</label>
+        <input type="text" id="part_name" name="part_name" required>
+        <label for="part_no">Part No:</label>
+        <input type="text" id="part_no" name="part_no" required>
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" required>
+        <button type="submit">Approve</button>
+    </form>
+</body>
+</html>
