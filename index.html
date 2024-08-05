@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Service Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Royal Dream Hyundai Workshop</h1>
+
+    <h2>Customer Search</h2>
+    <form id="searchForm">
+        <label for="search_registration_number">Registration Number:</label>
+        <input type="text" id="search_registration_number" name="registration_number" required>
+        <button type="submit">Search</button>
+        <p id="searchResponse"></p>
+    </form>
+
+    <h2>Customer Registration</h2>
+    <form id="customerForm">
+        <input type="hidden" id="customer_id" name="customer_id">
+        <label for="registration_number">Registration Number:</label>
+        <input type="text" id="registration_number" name="registration_number" required>
+        <label for="customer_name">Customer Name:</label>
+        <input type="text" id="customer_name" name="customer_name" required>
+        <label for="mobile_number">Mobile Number:</label>
+        <input type="text" id="mobile_number" name="mobile_number" required>
+        <label for="vin_number">VIN Number:</label>
+        <input type="text" id="vin_number" name="vin_number" required>
+        <button type="submit">Register</button>
+        <p id="customerResponse"></p>
+    </form>
+
+    <h2>Vehicle Inspection</h2>
+    <form id="inspectionForm">
+        <label for="current_mileage">Current Mileage:</label>
+        <input type="text" id="current_mileage" name="current_mileage" required>
+        <label for="inspection_files">Upload Files:</label>
+        <input type="file" id="inspection_files" name="inspection_files" multiple required>
+        <button type="submit">Submit Inspection</button>
+        <p id="inspectionResponse"></p>
+        <div id="previewContainer"></div>
+    </form>
+
+    <h2>Parts Request</h2>
+    <form id="partsRequestForm">
+        <label for="parts_request">Parts Request:</label>
+        <input type="text" id="parts_request" name="parts_request" required>
+        <button type="submit">Request Parts</button>
+    </form>
+
+    <h2>Part Requirement</h2>
+    <form id="partRequirementForm">
+        <label for="part_requirement">Part Requirement:</label>
+        <input type="text" id="part_requirement" name="part_requirement" required>
+        <button type="submit">Submit Requirement</button>
+    </form>
+
+    <h2>Parts Inventory</h2>
+    <form id="partsInventoryForm">
+        <label for="parts_inventory_file">Import Parts Inventory:</label>
+        <input type="file" id="parts_inventory_file" name="parts_inventory_file" accept=".xlsx, .xls, .csv" required>
+        <button type="submit">Import Inventory</button>
+    </form>
+
+    <h2>Barcode Generation</h2>
+    <label for="barcode_token">Token Number:</label>
+    <input type="text" id="barcode_token" name="barcode_token" required>
+    <button id="generateBarcode">Generate Barcode</button>
+    <img id="barcode_image" style="display: none;">
+
+    <h2>Token Slip Generation</h2>
+    <label for="token_number">Token Number:</label>
+    <input type="text" id="token_number" name="token_number" required>
+    <button id="generateTokenSlip">Generate Token Slip</button>
+    <a id="token_slip_link" style="display: none;" target="_blank">Download Token Slip</a>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
