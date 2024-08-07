@@ -52,6 +52,18 @@
         button:hover {
             background: #45a049;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -104,7 +116,14 @@
     <!-- Customer Vehicles Data Storage Tab -->
     <div id="customer-vehicles-data-storage" class="tab-content">
         <h2>Customer Vehicles Data Storage</h2>
-        <!-- Implementation of database functionality goes here -->
+        <form id="data-storage-form">
+            <label for="storage_vin">Search by VIN Number:</label>
+            <input type="text" id="storage_vin" name="storage_vin">
+            <label for="storage_reg">Search by Registration Number:</label>
+            <input type="text" id="storage_reg" name="storage_reg">
+            <button type="button" onclick="searchCustomerVehicles()">Search</button>
+        </form>
+        <div id="data-storage-results"></div>
     </div>
 
     <!-- Vehicle Inspection Tab -->
@@ -162,7 +181,7 @@
                         <th>PM</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="parts-request-tbody">
                     <!-- Add rows dynamically via JavaScript -->
                 </tbody>
             </table>
@@ -185,21 +204,12 @@
     <!-- Parts Check Tab -->
     <div id="parts-check" class="tab-content">
         <h2>Parts Check</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>S. No.</th>
-                    <th>Vehicle Registration Number</th>
-                    <th>Part Name</th>
-                    <th>Part No.</th>
-                    <th>Part Quantity</th>
-                    <th>PM</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Add rows dynamically via JavaScript -->
-            </tbody>
-        </table>
+        <form id="parts-check-form">
+            <label for="check_part_number">Part No:</label>
+            <input type="text" id="check_part_number" name="check_part_number" required>
+            <button type="button" onclick="checkPart()">Check</button>
+        </form>
+        <div id="parts-check-results"></div>
     </div>
 
     <!-- Parts Issued History Tab -->
@@ -267,10 +277,8 @@
             .then(response => response.json())
             .then(data => {
                 if (data.exists) {
-                    // Display vehicle data
                     document.getElementById('vehicle-results').innerText = `Vehicle found: ${JSON.stringify(data.vehicle)}`;
                 } else {
-                    // Option to create a new entry
                     document.getElementById('vehicle-results').innerHTML = `<button onclick="createNewEntry()">Create New Entry</button>`;
                 }
             });
@@ -298,9 +306,7 @@
             })
             .then(response => response.json())
             .then(data => {
-                // Handle response, generate Token Number and Barcode
                 document.getElementById('token-info').innerText = `Token Number: ${data.token_number}`;
-                // More logic to handle Token and Barcode generation
             });
         }
 
@@ -389,6 +395,22 @@
             });
         }
 
+        function checkPart() {
+            const partNumber = document.getElementById('check_part_number').value;
+
+            fetch('/check_part', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ partNumber })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('parts-check-results').innerText = `Part Info: ${JSON.stringify(data.part)}`;
+            });
+        }
+
         function searchIssuedHistory() {
             const vehicleNumber = document.getElementById('issued_history_vehicle_number').value;
             const date = document.getElementById('issued_history_date').value;
@@ -427,6 +449,23 @@
             .then(response => response.json())
             .then(data => {
                 // Handle response
+            });
+        }
+
+        function searchCustomerVehicles() {
+            const vin = document.getElementById('storage_vin').value;
+            const reg = document.getElementById('storage_reg').value;
+
+            fetch('/search_customer_vehicles', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ vin, reg })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('customer-vehicles-results').innerText = `Customer Vehicles: ${JSON.stringify(data.vehicles)}`;
             });
         }
     </script>
