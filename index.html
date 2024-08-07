@@ -257,19 +257,15 @@
                 <input type="text" id="check_part_number">
             </div>
             <button type="button" onclick="checkPart()">Check</button>
-            <div id="parts-check-results" class="results"></div>
+            <div id="part-check-results" class="results"></div>
         </div>
 
         <!-- Parts Issued History Tab -->
         <div id="parts-issued-history" class="tab-content">
             <h2>Parts Issued History</h2>
             <div class="form-group">
-                <label for="issued_history_vehicle_number">Vehicle Number:</label>
-                <input type="text" id="issued_history_vehicle_number">
-            </div>
-            <div class="form-group">
-                <label for="issued_history_date">Date:</label>
-                <input type="date" id="issued_history_date">
+                <label for="issued_history_part_number">Part Number:</label>
+                <input type="text" id="issued_history_part_number">
             </div>
             <button type="button" onclick="searchIssuedHistory()">Search</button>
             <div id="issued-history-results" class="results"></div>
@@ -277,204 +273,198 @@
 
         <!-- Billing & Payment Tab -->
         <div id="billing-payment" class="tab-content">
-            <h2>Billing & Payment</h2>
+            <h2>Billing & Payment Details</h2>
             <div class="form-group">
-                <label for="gdms_billing_number">GDMS Billing Number:</label>
-                <input type="text" id="gdms_billing_number">
+                <label for="billing_invoice_number">Invoice Number:</label>
+                <input type="text" id="billing_invoice_number">
             </div>
-            <div class="form-group">
-                <label for="receipt_no">Receipt Number:</label>
-                <input type="text" id="receipt_no">
-            </div>
-            <div class="form-group">
-                <label for="payment_date">Payment Date:</label>
-                <input type="date" id="payment_date">
-            </div>
-            <div class="form-group">
-                <label for="payment_mode">Payment Mode:</label>
-                <select id="payment_mode">
-                    <option>Cash</option>
-                    <option>Credit Card</option>
-                    <option>Debit Card</option>
-                    <option>Bank Transfer</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="payment_details">Payment Details:</label>
-                <input type="text" id="payment_details">
-            </div>
-            <div class="form-group">
-                <label for="amount">Amount:</label>
-                <input type="number" id="amount">
-            </div>
-            <div class="form-group">
-                <label for="amount_words">Amount in Words:</label>
-                <input type="text" id="amount_words">
-            </div>
-            <button type="button" onclick="submitBillingPayment()">Submit</button>
+            <button type="button" onclick="searchBilling()">Search</button>
+            <div id="billing-results" class="results"></div>
         </div>
+
     </div>
 
-    <!-- Overlay for Popups -->
-    <div id="overlay" class="overlay"></div>
-
-    <!-- Popup Example -->
     <div id="popup" class="popup">
         <div class="popup-header">
-            <span class="popup-close" onclick="closePopup()">&times;</span>
-            Popup Title
+            <span class="popup-close" onclick="closePopup()">×</span>
+            <span id="popup-title">Popup Title</span>
         </div>
-        <div class="popup-content">
-            <p>Popup content goes here.</p>
-        </div>
+        <div class="popup-content" id="popup-content">Popup Content</div>
     </div>
+    <div id="overlay" class="overlay"></div>
 
     <script>
         function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.classList.remove('active');
             });
-            document.querySelectorAll('.tab-content').forEach(tabContent => {
-                tabContent.classList.remove('active');
-            });
-            document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
             document.getElementById(tabId).classList.add('active');
+            document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
         }
 
-        function searchVehicle() {
+        async function searchVehicle() {
             const vin = document.getElementById('search_vin').value;
             const reg = document.getElementById('search_reg').value;
-            fetch('http://127.0.0.1:5000/search_vehicle', {
+
+            const response = await fetch('http://127.0.0.1:5000/search_vehicle', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ vin, reg })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('vehicle-results').innerText = `Vehicle Info: ${JSON.stringify(data.vehicle) || 'Not found'}`;
             });
+
+            const result = await response.json();
+            document.getElementById('vehicle-results').innerHTML = JSON.stringify(result, null, 2);
         }
 
-        function submitDataEntry() {
+        async function submitDataEntry() {
             const customerName = document.getElementById('customer_name').value;
             const mobileNumber = document.getElementById('mobile_number').value;
             const vinNumber = document.getElementById('vin_number').value;
             const registrationNumber = document.getElementById('registration_number').value;
             const currentMileage = document.getElementById('current_mileage').value;
-            fetch('http://127.0.0.1:5000/submit_data_entry', {
+
+            const response = await fetch('http://127.0.0.1:5000/submit_data_entry', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ customer_name: customerName, mobile_number: mobileNumber, vin_number: vinNumber, registration_number: registrationNumber, current_mileage: currentMileage })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('token-info').innerText = `Token Number: ${data.token_number}`;
+                body: JSON.stringify({ customerName, mobileNumber, vinNumber, registrationNumber, currentMileage })
             });
+
+            const result = await response.json();
+            document.getElementById('token-info').innerHTML = JSON.stringify(result, null, 2);
         }
 
-        function submitInspection() {
-            // Implement the inspection submission
+        async function submitInspection() {
+            const vin = document.getElementById('inspection_vin').value;
+            const details = document.getElementById('inspection_details').value;
+            const photo = document.getElementById('inspection_photo').files[0];
+
+            const formData = new FormData();
+            formData.append('vin', vin);
+            formData.append('details', details);
+            formData.append('photo', photo);
+
+            const response = await fetch('http://127.0.0.1:5000/submit_inspection', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            alert('Inspection submitted successfully!');
         }
 
-        function addPart() {
+        async function addPart() {
             const partNumber = document.getElementById('part_number').value;
             const partName = document.getElementById('part_name').value;
             const quantity = document.getElementById('quantity').value;
-            fetch('http://127.0.0.1:5000/add_part', {
+
+            const response = await fetch('http://127.0.0.1:5000/add_part', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ part_number: partNumber, part_name: partName, quantity })
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert('Part added successfully!');
+                body: JSON.stringify({ partNumber, partName, quantity })
             });
+
+            const result = await response.json();
+            alert('Part added successfully!');
         }
 
-        function importParts() {
-            // Implement file upload and import logic
+        async function importParts() {
+            const fileInput = document.getElementById('import-file');
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const response = await fetch('http://127.0.0.1:5000/import_parts', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            alert('Parts imported successfully!');
         }
 
-        function submitPartsRequest() {
-            // Implement parts request submission
+        async function submitPartsRequest() {
+            const partNumber = document.getElementById('request_part_number').value;
+            const quantity = document.getElementById('request_quantity').value;
+
+            const response = await fetch('http://127.0.0.1:5000/submit_parts_request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ partNumber, quantity })
+            });
+
+            const result = await response.json();
+            alert('Parts request submitted successfully!');
         }
 
-        function searchPartsHistory() {
+        async function searchPartsHistory() {
             const identifier = document.getElementById('history_identifier').value;
-            fetch('http://127.0.0.1:5000/search_parts_history', {
+
+            const response = await fetch('http://127.0.0.1:5000/search_parts_history', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ identifier })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('parts-history-results').innerText = `Parts History: ${JSON.stringify(data.history)}`;
             });
+
+            const result = await response.json();
+            document.getElementById('parts-history-results').innerHTML = JSON.stringify(result, null, 2);
         }
 
-        function checkPart() {
+        async function checkPart() {
             const partNumber = document.getElementById('check_part_number').value;
-            fetch('http://127.0.0.1:5000/check_part', {
+
+            const response = await fetch('http://127.0.0.1:5000/check_part', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ partNumber })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('parts-check-results').innerText = `Part Info: ${JSON.stringify(data.part) || 'Not found'}`;
             });
+
+            const result = await response.json();
+            document.getElementById('part-check-results').innerHTML = JSON.stringify(result, null, 2);
         }
 
-        function searchIssuedHistory() {
-            const vehicleNumber = document.getElementById('issued_history_vehicle_number').value;
-            const date = document.getElementById('issued_history_date').value;
-            fetch('http://127.0.0.1:5000/search_issued_history', {
+        async function searchIssuedHistory() {
+            const partNumber = document.getElementById('issued_history_part_number').value;
+
+            const response = await fetch('http://127.0.0.1:5000/search_issued_history', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ vehicleNumber, date })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('issued-history-results').innerText = `Issued History: ${JSON.stringify(data.history)}`;
+                body: JSON.stringify({ partNumber })
             });
+
+            const result = await response.json();
+            document.getElementById('issued-history-results').innerHTML = JSON.stringify(result, null, 2);
         }
 
-        function submitBillingPayment() {
-            const gdmsBillingNumber = document.getElementById('gdms_billing_number').value;
-            const receiptNo = document.getElementById('receipt_no').value;
-            const paymentDate = document.getElementById('payment_date').value;
-            const paymentMode = document.getElementById('payment_mode').value;
-            const paymentDetails = document.getElementById('payment_details').value;
-            const amount = document.getElementById('amount').value;
-            const amountWords = document.getElementById('amount_words').value;
-            fetch('http://127.0.0.1:5000/submit_billing_payment', {
+        async function searchBilling() {
+            const invoiceNumber = document.getElementById('billing_invoice_number').value;
+
+            const response = await fetch('http://127.0.0.1:5000/search_billing', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ gdms_billing_number: gdmsBillingNumber, receipt_no: receiptNo, payment_date: paymentDate, payment_mode: paymentMode, payment_details: paymentDetails, amount, amount_words: amountWords })
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert('Billing and Payment details submitted successfully!');
+                body: JSON.stringify({ invoiceNumber })
             });
-        }
 
-        function showPopup() {
-            document.getElementById('popup').classList.add('active');
-            document.getElementById('overlay').classList.add('active');
+            const result = await response.json();
+            document.getElementById('billing-results').innerHTML = JSON.stringify(result, null, 2);
         }
 
         function closePopup() {
