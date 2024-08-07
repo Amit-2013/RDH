@@ -1,82 +1,42 @@
-/* styles.css */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-}
-
-h1 {
-    text-align: center;
-    margin-top: 20px;
 }
 
 nav {
     background-color: #333;
-    overflow: hidden;
+    color: #fff;
+    padding: 10px;
 }
 
 nav ul {
-    list-style-type: none;
-    margin: 0;
+    list-style: none;
     padding: 0;
-    display: flex;
-    justify-content: center;
 }
 
 nav ul li {
-    margin: 0;
+    display: inline;
+    margin-right: 10px;
 }
 
 nav ul li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 20px;
+    color: #fff;
     text-decoration: none;
 }
 
-nav ul li a:hover {
-    background-color: #111;
-}
-
-.tab-content {
-    display: none;
+#vehicle-management {
     padding: 20px;
-    background-color: white;
-    margin: 20px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
 }
 
 button {
     background-color: #4CAF50;
     color: white;
-    padding: 10px 20px;
     border: none;
-    border-radius: 4px;
+    padding: 10px;
     cursor: pointer;
 }
 
 button:hover {
     background-color: #45a049;
-}
-
-form label {
-    display: block;
-    margin: 10px 0 5px;
-}
-
-form input[type="text"],
-form input[type="number"],
-form input[type="file"] {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-form input[type="file"] {
-    padding: 3px;
 }
