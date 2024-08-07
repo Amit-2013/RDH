@@ -10,15 +10,15 @@
             margin: 0;
             padding: 0;
         }
-        .container {
-            width: 80%;
-            margin: auto;
-        }
         header {
             background: #333;
             color: #fff;
             padding: 10px 0;
             text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
         }
         .tabs {
             display: flex;
@@ -58,6 +58,7 @@
         }
         .form-group input,
         .form-group select,
+        .form-group textarea,
         .form-group button {
             width: 100%;
             padding: 10px;
@@ -75,6 +76,47 @@
         }
         .results {
             margin-top: 20px;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .popup.active {
+            display: block;
+        }
+        .popup-header {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .popup-close {
+            float: right;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .popup-content {
+            margin-top: 20px;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        .overlay.active {
+            display: block;
         }
     </style>
 </head>
@@ -273,6 +315,20 @@
         </div>
     </div>
 
+    <!-- Overlay for Popups -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- Popup Example -->
+    <div id="popup" class="popup">
+        <div class="popup-header">
+            <span class="popup-close" onclick="closePopup()">&times;</span>
+            Popup Title
+        </div>
+        <div class="popup-content">
+            <p>Popup content goes here.</p>
+        </div>
+    </div>
+
     <script>
         function showTab(tabId) {
             document.querySelectorAll('.tab').forEach(tab => {
@@ -414,6 +470,16 @@
             .then(data => {
                 alert('Billing and Payment details submitted successfully!');
             });
+        }
+
+        function showPopup() {
+            document.getElementById('popup').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+        }
+
+        function closePopup() {
+            document.getElementById('popup').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
         }
     </script>
 </body>
