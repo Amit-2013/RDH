@@ -3,270 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Royal Dream Hyundai Service Management</title>
+    <title>Royal Dream Hyundai</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
         }
-        .tab-content {
-            display: none;
+        .container {
+            width: 80%;
+            margin: auto;
         }
-        .tab-content.active {
-            display: block;
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
         }
         .tabs {
             display: flex;
             cursor: pointer;
+            margin: 20px 0;
+        }
+        .tab {
+            flex: 1;
             padding: 10px;
-            background: #f1f1f1;
-            border-bottom: 1px solid #ccc;
+            text-align: center;
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 5px 5px 0 0;
+            margin-right: 2px;
         }
-        .tabs div {
-            padding: 10px 20px;
-            margin-right: 5px;
-            background: #ddd;
-        }
-        .tabs .active {
+        .tab.active {
             background: #fff;
-            border-bottom: 1px solid #fff;
+            border-bottom: none;
+            font-weight: bold;
         }
-        form {
-            margin: 20px;
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 0 0 5px 5px;
+            background: #fff;
         }
-        label {
+        .tab-content.active {
+            display: block;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
             display: block;
             margin-bottom: 5px;
         }
-        input, select {
-            margin-bottom: 10px;
-            padding: 5px;
+        .form-group input,
+        .form-group select,
+        .form-group button {
             width: 100%;
-        }
-        button {
             padding: 10px;
-            background: #4CAF50;
-            color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group button {
+            background: #333;
+            color: #fff;
             border: none;
             cursor: pointer;
         }
-        button:hover {
-            background: #45a049;
+        .form-group button:hover {
+            background: #555;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
+        .results {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="tabs">
-        <div class="tab active" onclick="showTab('vehicle-management')">Vehicle Management</div>
-        <div class="tab" onclick="showTab('data-entry-form')">Data Entry Form</div>
-        <div class="tab" onclick="showTab('customer-vehicles-data-storage')">Customer Vehicles Data Storage</div>
-        <div class="tab" onclick="showTab('vehicle-inspection')">Vehicle Inspection</div>
-        <div class="tab" onclick="showTab('parts-inventory')">Parts Inventory</div>
-        <div class="tab" onclick="showTab('parts-issued-request')">Parts Issued Request</div>
-        <div class="tab" onclick="showTab('parts-history')">Parts History</div>
-        <div class="tab" onclick="showTab('parts-check')">Parts Check</div>
-        <div class="tab" onclick="showTab('parts-issued-history')">Parts Issued History</div>
-        <div class="tab" onclick="showTab('billing-payment')">Billing & Payment</div>
-    </div>
+    <header>
+        <h1>Royal Dream Hyundai</h1>
+    </header>
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('vehicle-management')">Vehicle Management</div>
+            <div class="tab" onclick="showTab('data-entry-form')">Data Entry Form</div>
+            <div class="tab" onclick="showTab('inspection')">Vehicle Inspection</div>
+            <div class="tab" onclick="showTab('parts-inventory')">Parts Inventory</div>
+            <div class="tab" onclick="showTab('parts-request')">Parts Request</div>
+            <div class="tab" onclick="showTab('parts-history')">Parts History</div>
+            <div class="tab" onclick="showTab('parts-check')">Parts Check</div>
+            <div class="tab" onclick="showTab('parts-issued-history')">Parts Issued History</div>
+            <div class="tab" onclick="showTab('billing-payment')">Billing & Payment</div>
+        </div>
 
-    <!-- Vehicle Management Tab -->
-    <div id="vehicle-management" class="tab-content active">
-        <h2>Vehicle Management</h2>
-        <form id="vehicle-search-form">
-            <label for="search_vin">Search by VIN Number:</label>
-            <input type="text" id="search_vin" name="search_vin">
-            <label for="search_reg">Search by Registration Number:</label>
-            <input type="text" id="search_reg" name="search_reg">
-            <button type="button" onclick="searchVehicle()">Search</button>
-        </form>
-        <div id="vehicle-results"></div>
-    </div>
+        <!-- Vehicle Management Tab -->
+        <div id="vehicle-management" class="tab-content active">
+            <h2>Vehicle Management</h2>
+            <div class="form-group">
+                <label for="search_vin">Search by VIN:</label>
+                <input type="text" id="search_vin">
+            </div>
+            <div class="form-group">
+                <label for="search_reg">Search by Registration Number:</label>
+                <input type="text" id="search_reg">
+            </div>
+            <button onclick="searchVehicle()">Search</button>
+            <div id="vehicle-results" class="results"></div>
+        </div>
 
-    <!-- Data Entry Form Tab -->
-    <div id="data-entry-form" class="tab-content">
-        <h2>Data Entry Form</h2>
-        <form id="data-entry-form">
-            <label for="customer_name">Customer Name:</label>
-            <input type="text" id="customer_name" name="customer_name" required>
-            <label for="mobile_number">Mobile Number:</label>
-            <input type="text" id="mobile_number" name="mobile_number" required>
-            <label for="vin_number">VIN Number:</label>
-            <input type="text" id="vin_number" name="vin_number" required>
-            <label for="registration_number">Registration Number:</label>
-            <input type="text" id="registration_number" name="registration_number" required>
-            <label for="current_mileage">Current Mileage:</label>
-            <input type="number" id="current_mileage" name="current_mileage" required>
-            <button type="button" onclick="submitDataEntry()">Submit</button>
-        </form>
-        <div id="token-info"></div>
-        <button type="button" onclick="printToken()">Print Token</button>
-    </div>
+        <!-- Data Entry Form Tab -->
+        <div id="data-entry-form" class="tab-content">
+            <h2>Data Entry Form</h2>
+            <div class="form-group">
+                <label for="customer_name">Customer Name:</label>
+                <input type="text" id="customer_name">
+            </div>
+            <div class="form-group">
+                <label for="mobile_number">Mobile Number:</label>
+                <input type="text" id="mobile_number">
+            </div>
+            <div class="form-group">
+                <label for="vin_number">VIN Number:</label>
+                <input type="text" id="vin_number">
+            </div>
+            <div class="form-group">
+                <label for="registration_number">Registration Number:</label>
+                <input type="text" id="registration_number">
+            </div>
+            <div class="form-group">
+                <label for="current_mileage">Current Mileage:</label>
+                <input type="number" id="current_mileage">
+            </div>
+            <button onclick="submitDataEntry()">Submit</button>
+            <div id="token-info" class="results"></div>
+        </div>
 
-    <!-- Customer Vehicles Data Storage Tab -->
-    <div id="customer-vehicles-data-storage" class="tab-content">
-        <h2>Customer Vehicles Data Storage</h2>
-        <form id="data-storage-form">
-            <label for="storage_vin">Search by VIN Number:</label>
-            <input type="text" id="storage_vin" name="storage_vin">
-            <label for="storage_reg">Search by Registration Number:</label>
-            <input type="text" id="storage_reg" name="storage_reg">
-            <button type="button" onclick="searchCustomerVehicles()">Search</button>
-        </form>
-        <div id="data-storage-results"></div>
-    </div>
+        <!-- Vehicle Inspection Tab -->
+        <div id="inspection" class="tab-content">
+            <h2>Vehicle Inspection</h2>
+            <form id="inspection-form">
+                <div class="form-group">
+                    <label for="inspection_vin">VIN Number:</label>
+                    <input type="text" id="inspection_vin">
+                </div>
+                <div class="form-group">
+                    <label for="inspection_details">Inspection Details:</label>
+                    <textarea id="inspection_details"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="inspection_photo">Upload Photo:</label>
+                    <input type="file" id="inspection_photo">
+                </div>
+                <button type="button" onclick="submitInspection()">Submit Inspection</button>
+            </form>
+        </div>
 
-    <!-- Vehicle Inspection Tab -->
-    <div id="vehicle-inspection" class="tab-content">
-        <h2>Vehicle Inspection</h2>
-        <form id="inspection-form">
-            <label for="right_side_photo">Right Side Photo:</label>
-            <input type="file" id="right_side_photo" name="right_side_photo">
-            <label for="left_side_photo">Left Side Photo:</label>
-            <input type="file" id="left_side_photo" name="left_side_photo">
-            <label for="front_side_photo">Front Side Photo:</label>
-            <input type="file" id="front_side_photo" name="front_side_photo">
-            <label for="back_side_photo">Back Side Photo:</label>
-            <input type="file" id="back_side_photo" name="back_side_photo">
-            <label for="inside_photo">Inside Photo:</label>
-            <input type="file" id="inside_photo" name="inside_photo">
-            <label for="hood_photo">Hood Photo:</label>
-            <input type="file" id="hood_photo" name="hood_photo">
-            <label for="video">360 Degree Video:</label>
-            <input type="file" id="video" name="video">
-            <button type="button" onclick="submitInspection()">Submit</button>
-        </form>
-    </div>
+        <!-- Parts Inventory Tab -->
+        <div id="parts-inventory" class="tab-content">
+            <h2>Parts Inventory</h2>
+            <div class="form-group">
+                <label for="part_number">Part Number:</label>
+                <input type="text" id="part_number">
+            </div>
+            <div class="form-group">
+                <label for="part_name">Part Name:</label>
+                <input type="text" id="part_name">
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity">
+            </div>
+            <button onclick="addPart()">Add Part</button>
+            <div class="form-group">
+                <label for="import-file">Import Parts (CSV/XLSX):</label>
+                <input type="file" id="import-file">
+                <button onclick="importParts()">Import</button>
+            </div>
+        </div>
 
-    <!-- Parts Inventory Tab -->
-    <div id="parts-inventory" class="tab-content">
-        <h2>Parts Inventory</h2>
-        <form id="parts-form">
-            <label for="part_number">Part No:</label>
-            <input type="text" id="part_number" name="part_number" required>
-            <label for="part_name">Part Name:</label>
-            <input type="text" id="part_name" name="part_name" required>
-            <label for="quantity">Quantity:</label>
-            <input type="number" id="quantity" name="quantity" required>
-            <button type="button" onclick="addPart()">Add Part</button>
-        </form>
-        <input type="file" id="import-file" name="import-file" accept=".xlsx, .xls, .csv">
-        <button type="button" onclick="importParts()">Import Parts</button>
-    </div>
+        <!-- Parts Request Tab -->
+        <div id="parts-request" class="tab-content">
+            <h2>Parts Request</h2>
+            <form id="parts-request-form">
+                <div class="form-group">
+                    <label for="request_part_number">Part Number:</label>
+                    <input type="text" id="request_part_number">
+                </div>
+                <div class="form-group">
+                    <label for="request_quantity">Quantity:</label>
+                    <input type="number" id="request_quantity">
+                </div>
+                <button type="button" onclick="submitPartsRequest()">Submit Request</button>
+            </form>
+        </div>
 
-    <!-- Parts Issued Request Tab -->
-    <div id="parts-issued-request" class="tab-content">
-        <h2>Parts Issued Request</h2>
-        <form id="parts-request-form">
-            <label for="vehicle_reg">Vehicle Registration Number:</label>
-            <input type="text" id="vehicle_reg" name="vehicle_reg" required>
-            <table>
-                <thead>
-                    <tr>
-                        <th>S. No.</th>
-                        <th>Part Name</th>
-                        <th>Part No.</th>
-                        <th>Part Quantity</th>
-                        <th>SA</th>
-                        <th>PM</th>
-                    </tr>
-                </thead>
-                <tbody id="parts-request-tbody">
-                    <!-- Add rows dynamically via JavaScript -->
-                </tbody>
-            </table>
-            <button type="button" onclick="submitPartsRequest()">Save</button>
-            <button type="button" onclick="sendPartsRequest()">Send</button>
-        </form>
-    </div>
-
-    <!-- Parts History Tab -->
-    <div id="parts-history" class="tab-content">
-        <h2>Parts History</h2>
-        <form id="parts-history-form">
-            <label for="history_identifier">Search by Identifier:</label>
-            <input type="text" id="history_identifier" name="history_identifier">
+        <!-- Parts History Tab -->
+        <div id="parts-history" class="tab-content">
+            <h2>Parts History</h2>
+            <div class="form-group">
+                <label for="history_identifier">Part Number/Name:</label>
+                <input type="text" id="history_identifier">
+            </div>
             <button type="button" onclick="searchPartsHistory()">Search</button>
-        </form>
-        <div id="parts-history-results"></div>
-    </div>
+            <div id="parts-history-results" class="results"></div>
+        </div>
 
-    <!-- Parts Check Tab -->
-    <div id="parts-check" class="tab-content">
-        <h2>Parts Check</h2>
-        <form id="parts-check-form">
-            <label for="check_part_number">Part No:</label>
-            <input type="text" id="check_part_number" name="check_part_number" required>
+        <!-- Parts Check Tab -->
+        <div id="parts-check" class="tab-content">
+            <h2>Parts Check</h2>
+            <div class="form-group">
+                <label for="check_part_number">Part Number:</label>
+                <input type="text" id="check_part_number">
+            </div>
             <button type="button" onclick="checkPart()">Check</button>
-        </form>
-        <div id="parts-check-results"></div>
-    </div>
+            <div id="parts-check-results" class="results"></div>
+        </div>
 
-    <!-- Parts Issued History Tab -->
-    <div id="parts-issued-history" class="tab-content">
-        <h2>Parts Issued History</h2>
-        <form id="parts-issued-history-form">
-            <label for="issued_history_vehicle_number">Search by Vehicle Number:</label>
-            <input type="text" id="issued_history_vehicle_number" name="issued_history_vehicle_number">
-            <label for="issued_history_date">Search by Date:</label>
-            <input type="date" id="issued_history_date" name="issued_history_date">
+        <!-- Parts Issued History Tab -->
+        <div id="parts-issued-history" class="tab-content">
+            <h2>Parts Issued History</h2>
+            <div class="form-group">
+                <label for="issued_history_vehicle_number">Vehicle Number:</label>
+                <input type="text" id="issued_history_vehicle_number">
+            </div>
+            <div class="form-group">
+                <label for="issued_history_date">Date:</label>
+                <input type="date" id="issued_history_date">
+            </div>
             <button type="button" onclick="searchIssuedHistory()">Search</button>
-        </form>
-        <div id="issued-history-results"></div>
-    </div>
+            <div id="issued-history-results" class="results"></div>
+        </div>
 
-    <!-- Billing & Payment Tab -->
-    <div id="billing-payment" class="tab-content">
-        <h2>Billing & Payment</h2>
-        <form id="billing-payment-form">
-            <label for="gdms_billing_number">GDMS Billing Number:</label>
-            <input type="text" id="gdms_billing_number" name="gdms_billing_number" required>
-            <h3>Payment Details</h3>
-            <label for="receipt_no">Receipt No:</label>
-            <input type="text" id="receipt_no" name="receipt_no">
-            <label for="payment_date">Date of Payment:</label>
-            <input type="date" id="payment_date" name="payment_date">
-            <label for="payment_mode">Mode of Payment:</label>
-            <select id="payment_mode" name="payment_mode">
-                <option value="online">Online</option>
-                <option value="cheque">Cheque</option>
-            </select>
-            <label for="payment_details">Online/Cheque Details:</label>
-            <input type="text" id="payment_details" name="payment_details">
-            <label for="amount">Amount:</label>
-            <input type="number" id="amount" name="amount">
-            <label for="amount_words">Amount in Words:</label>
-            <input type="text" id="amount_words" name="amount_words">
-            <button type="button" onclick="submitBillingPayment()">Save & Submit</button>
-        </form>
+        <!-- Billing & Payment Tab -->
+        <div id="billing-payment" class="tab-content">
+            <h2>Billing & Payment</h2>
+            <div class="form-group">
+                <label for="gdms_billing_number">GDMS Billing Number:</label>
+                <input type="text" id="gdms_billing_number">
+            </div>
+            <div class="form-group">
+                <label for="receipt_no">Receipt Number:</label>
+                <input type="text" id="receipt_no">
+            </div>
+            <div class="form-group">
+                <label for="payment_date">Payment Date:</label>
+                <input type="date" id="payment_date">
+            </div>
+            <div class="form-group">
+                <label for="payment_mode">Payment Mode:</label>
+                <select id="payment_mode">
+                    <option>Cash</option>
+                    <option>Credit Card</option>
+                    <option>Debit Card</option>
+                    <option>Bank Transfer</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="payment_details">Payment Details:</label>
+                <input type="text" id="payment_details">
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount">
+            </div>
+            <div class="form-group">
+                <label for="amount_words">Amount in Words:</label>
+                <input type="text" id="amount_words">
+            </div>
+            <button type="button" onclick="submitBillingPayment()">Submit</button>
+        </div>
     </div>
 
     <script>
         function showTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.classList.remove('active');
             });
-            document.getElementById(tabId).classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(tabContent => {
+                tabContent.classList.remove('active');
+            });
             document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
         }
 
         function searchVehicle() {
             const vin = document.getElementById('search_vin').value;
             const reg = document.getElementById('search_reg').value;
-
             fetch('/search_vehicle', {
                 method: 'POST',
                 headers: {
@@ -276,33 +297,22 @@
             })
             .then(response => response.json())
             .then(data => {
-                if (data.exists) {
-                    document.getElementById('vehicle-results').innerText = `Vehicle found: ${JSON.stringify(data.vehicle)}`;
-                } else {
-                    document.getElementById('vehicle-results').innerHTML = `<button onclick="createNewEntry()">Create New Entry</button>`;
-                }
+                document.getElementById('vehicle-results').innerText = `Vehicle Info: ${JSON.stringify(data.vehicle) || 'Not found'}`;
             });
         }
 
-        function createNewEntry() {
-            showTab('data-entry-form');
-        }
-
         function submitDataEntry() {
-            const formData = {
-                customer_name: document.getElementById('customer_name').value,
-                mobile_number: document.getElementById('mobile_number').value,
-                vin_number: document.getElementById('vin_number').value,
-                registration_number: document.getElementById('registration_number').value,
-                current_mileage: document.getElementById('current_mileage').value
-            };
-
+            const customerName = document.getElementById('customer_name').value;
+            const mobileNumber = document.getElementById('mobile_number').value;
+            const vinNumber = document.getElementById('vin_number').value;
+            const registrationNumber = document.getElementById('registration_number').value;
+            const currentMileage = document.getElementById('current_mileage').value;
             fetch('/submit_data_entry', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify({ customer_name: customerName, mobile_number: mobileNumber, vin_number: vinNumber, registration_number: registrationNumber, current_mileage: currentMileage })
             })
             .then(response => response.json())
             .then(data => {
@@ -310,78 +320,37 @@
             });
         }
 
-        function printToken() {
-            // Logic to print Token and Barcode
-        }
-
         function submitInspection() {
-            const formData = new FormData(document.getElementById('inspection-form'));
-
-            fetch('/submit_inspection', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Handle response
-            });
+            // Implement the inspection submission
         }
 
         function addPart() {
-            const part = {
-                part_number: document.getElementById('part_number').value,
-                part_name: document.getElementById('part_name').value,
-                quantity: document.getElementById('quantity').value
-            };
-
+            const partNumber = document.getElementById('part_number').value;
+            const partName = document.getElementById('part_name').value;
+            const quantity = document.getElementById('quantity').value;
             fetch('/add_part', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(part)
+                body: JSON.stringify({ part_number: partNumber, part_name: partName, quantity })
             })
             .then(response => response.json())
             .then(data => {
-                // Handle response
+                alert('Part added successfully!');
             });
         }
 
         function importParts() {
-            const file = document.getElementById('import-file').files[0];
-            const formData = new FormData();
-            formData.append('file', file);
-
-            fetch('/import_parts', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Handle response
-            });
+            // Implement file upload and import logic
         }
 
         function submitPartsRequest() {
-            const formData = new FormData(document.getElementById('parts-request-form'));
-
-            fetch('/submit_parts_request', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Handle response
-            });
-        }
-
-        function sendPartsRequest() {
-            // Logic to send parts request
+            // Implement parts request submission
         }
 
         function searchPartsHistory() {
             const identifier = document.getElementById('history_identifier').value;
-
             fetch('/search_parts_history', {
                 method: 'POST',
                 headers: {
@@ -391,13 +360,12 @@
             })
             .then(response => response.json())
             .then(data => {
-                document.getElementById('parts-history-results').innerText = `History: ${JSON.stringify(data.history)}`;
+                document.getElementById('parts-history-results').innerText = `Parts History: ${JSON.stringify(data.history)}`;
             });
         }
 
         function checkPart() {
             const partNumber = document.getElementById('check_part_number').value;
-
             fetch('/check_part', {
                 method: 'POST',
                 headers: {
@@ -407,14 +375,13 @@
             })
             .then(response => response.json())
             .then(data => {
-                document.getElementById('parts-check-results').innerText = `Part Info: ${JSON.stringify(data.part)}`;
+                document.getElementById('parts-check-results').innerText = `Part Info: ${JSON.stringify(data.part) || 'Not found'}`;
             });
         }
 
         function searchIssuedHistory() {
             const vehicleNumber = document.getElementById('issued_history_vehicle_number').value;
             const date = document.getElementById('issued_history_date').value;
-
             fetch('/search_issued_history', {
                 method: 'POST',
                 headers: {
@@ -429,43 +396,23 @@
         }
 
         function submitBillingPayment() {
-            const formData = {
-                gdms_billing_number: document.getElementById('gdms_billing_number').value,
-                receipt_no: document.getElementById('receipt_no').value,
-                payment_date: document.getElementById('payment_date').value,
-                payment_mode: document.getElementById('payment_mode').value,
-                payment_details: document.getElementById('payment_details').value,
-                amount: document.getElementById('amount').value,
-                amount_words: document.getElementById('amount_words').value
-            };
-
+            const gdmsBillingNumber = document.getElementById('gdms_billing_number').value;
+            const receiptNo = document.getElementById('receipt_no').value;
+            const paymentDate = document.getElementById('payment_date').value;
+            const paymentMode = document.getElementById('payment_mode').value;
+            const paymentDetails = document.getElementById('payment_details').value;
+            const amount = document.getElementById('amount').value;
+            const amountWords = document.getElementById('amount_words').value;
             fetch('/submit_billing_payment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify({ gdms_billing_number: gdmsBillingNumber, receipt_no: receiptNo, payment_date: paymentDate, payment_mode: paymentMode, payment_details: paymentDetails, amount, amount_words: amountWords })
             })
             .then(response => response.json())
             .then(data => {
-                // Handle response
-            });
-        }
-
-        function searchCustomerVehicles() {
-            const vin = document.getElementById('storage_vin').value;
-            const reg = document.getElementById('storage_reg').value;
-
-            fetch('/search_customer_vehicles', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ vin, reg })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('customer-vehicles-results').innerText = `Customer Vehicles: ${JSON.stringify(data.vehicles)}`;
+                alert('Billing and Payment details submitted successfully!');
             });
         }
     </script>
