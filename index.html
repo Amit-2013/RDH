@@ -344,7 +344,7 @@
         function searchVehicle() {
             const vin = document.getElementById('search_vin').value;
             const reg = document.getElementById('search_reg').value;
-            fetch('/search_vehicle', {
+            fetch('http://127.0.0.1:5000/search_vehicle', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -363,7 +363,7 @@
             const vinNumber = document.getElementById('vin_number').value;
             const registrationNumber = document.getElementById('registration_number').value;
             const currentMileage = document.getElementById('current_mileage').value;
-            fetch('/submit_data_entry', {
+            fetch('http://127.0.0.1:5000/submit_data_entry', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -384,7 +384,7 @@
             const partNumber = document.getElementById('part_number').value;
             const partName = document.getElementById('part_name').value;
             const quantity = document.getElementById('quantity').value;
-            fetch('/add_part', {
+            fetch('http://127.0.0.1:5000/add_part', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -407,7 +407,7 @@
 
         function searchPartsHistory() {
             const identifier = document.getElementById('history_identifier').value;
-            fetch('/search_parts_history', {
+            fetch('http://127.0.0.1:5000/search_parts_history', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -422,7 +422,7 @@
 
         function checkPart() {
             const partNumber = document.getElementById('check_part_number').value;
-            fetch('/check_part', {
+            fetch('http://127.0.0.1:5000/check_part', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -438,7 +438,7 @@
         function searchIssuedHistory() {
             const vehicleNumber = document.getElementById('issued_history_vehicle_number').value;
             const date = document.getElementById('issued_history_date').value;
-            fetch('/search_issued_history', {
+            fetch('http://127.0.0.1:5000/search_issued_history', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -459,7 +459,7 @@
             const paymentDetails = document.getElementById('payment_details').value;
             const amount = document.getElementById('amount').value;
             const amountWords = document.getElementById('amount_words').value;
-            fetch('/submit_billing_payment', {
+            fetch('http://127.0.0.1:5000/submit_billing_payment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
